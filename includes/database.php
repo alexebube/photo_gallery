@@ -31,6 +31,16 @@ class MySQLDatabase {
             unset($this->connection);
         }
     }
+    private function confirm_query($result){
+        if(!$result){
+            die("Database query failed: ".mysql_error());
+        }
+    }
+    public function query($sql){
+        $result = mysql_query($sql, $this->connection);
+        $this->confirm_query($result);
+        return $result;
+    }
 }
 
 $database = new MySQLDatabase();
