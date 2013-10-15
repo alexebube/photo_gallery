@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-require_once ("config.php");
+require_once '../includes/config.php';
 
 class MySQLDatabase {
     
@@ -14,7 +14,13 @@ class MySQLDatabase {
     function __construct() {
         $this->open_connection();
     }
+    private function confirm_query($result){
+        if(!$result){
+            die("Database query failed: ".mysql_error());
+        }
+    }
     public function open_connection(){
+        
         $this->connection = mysql_connect(DB_SERVER, DB_USER, DB_PASS);
         if(!$this->connection){
             die("Database connection failed: ".  mysql_error());
@@ -31,15 +37,23 @@ class MySQLDatabase {
             unset($this->connection);
         }
     }
-    private function confirm_query($result){
-        if(!$result){
-            die("Database query failed: ".mysql_error());
-        }
-    }
     public function query($sql){
         $result = mysql_query($sql, $this->connection);
         $this->confirm_query($result);
         return $result;
+    }
+    public function fetch_array($result_set){
+        return mysql_fetch_array($result_set);
+    }
+    public function num_rows($result_set) {
+        return mysql_num_rows($result_set);
+    }
+    public function insert_id() {
+        // get the last id inserted over the current db connection
+        return mysql_insert_id($this->connection);
+    }
+    public function affected_rows() {
+        return mysql_affected_rows($this->connection);
     }
     public function mysql_prep( $value ) {
 	$magic_quotes_active = get_magic_quotes_gpc();
