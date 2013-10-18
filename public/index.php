@@ -6,23 +6,18 @@
  */
 
 require_once("../includes/database.php");
+require_once("../includes/user.php");
 
-if (isset($database)): 
-    echo "true";
-else:
-    echo "false";
-endif;
 
-echo $database->mysql_prep("It's working well<br/>");
+$user = User::find_by_id(1);
+echo $user->full_name();
 
-/**
-$sql  = "INSERT INTO users (id, username, password, first_name, last_name) ";
-$sql .= "VALUES (1, 'alexebube', 'alexebube', 'Alex', 'Obi')";
-$result = $database->query($sql);  **/
+echo "<hr/>";
+$users = User::find_all();
 
-$sql = "SELECT * FROM users WHERE id = 1";
-$result_set = $database->query($sql);
-$found_user = $database->fetch_array($result_set);
-echo $found_user['username'];
+foreach($users as $user){
+    echo "User: ".$user->username."<br/>";
+    echo "Name: ".$user->full_name()."<br/><br/>";
+}
 
 ?>
