@@ -4,8 +4,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once ("../includes/functions.php");
-require_once("../includes/database.php");
+require_once (LIB_PATH.DS."functions.php");
+require_once(LIB_PATH.DS."database.php");
 //require_once("../includes/user.php");
 
 

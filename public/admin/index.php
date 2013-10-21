@@ -1,23 +1,20 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-require_once ("../includes/functions.php");
-require_once("../includes/database.php");
-//require_once("../includes/user.php");
-
-
-$user = User::find_by_id(1);
-echo $user->full_name();
-
-echo "<hr/>";
-$users = User::find_all();
-
-foreach($users as $user){
-    echo "User: ".$user->username."<br/>";
-    echo "Name: ".$user->full_name()."<br/><br/>";
-}
-
+require_once("../../includes/initialize.php");
+if (!$session->is_logged_in()) { redirect_to("login.php"); }
 ?>
+<html>
+  <head>
+    <title>Photo Gallery</title>
+    <link href="../css/main.css" media="all" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="header">
+      <h1>Photo Gallery</h1>
+    </div>
+    <div id="main">
+	<h2>Menu</h2>	
+    </div>
+		
+    <div id="footer">Copyright <?php echo date("Y", time()); ?>, Alexander Obi</div>
+  </body>
+</html>

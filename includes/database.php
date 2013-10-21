@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-require_once '../includes/config.php';
+require_once (LIB_PATH.DS.'config.php');
 
 class MySQLDatabase {
     
@@ -63,18 +63,19 @@ class MySQLDatabase {
     public function affected_rows() {
         return mysql_affected_rows($this->connection);
     }
-    public function mysql_prep( $value ) {
-	if( $this->real_escape_string_exists ) { // PHP v4.3.0 or higher
-		// undo any magic quote effects so mysql_real_escape_string can do the work
-		if($this->magic_quotes_active ) { $value = stripslashes( $value ); }
-                    $value = mysql_real_escape_string( $value );
+    public function escape_value( $value ) {
+		if( $this->real_escape_string_exists ) { // PHP v4.3.0 or higher
+			// undo any magic quote effects so mysql_real_escape_string can do the work
+			if( $this->magic_quotes_active ) { $value = stripslashes( $value ); }
+			$value = mysql_real_escape_string( $value );
 		} else { // before PHP v4.3.0
-                    // if magic quotes aren't already on then add slashes manually
-                    if( !$this->magic_quotes_active ) { $value = addslashes( $value ); }
-                    // if magic quotes are active, then the slashes already exist
+			// if magic quotes aren't already on then add slashes manually
+			if( !$this->magic_quotes_active ) { $value = addslashes( $value ); }
+			// if magic quotes are active, then the slashes already exist
 		}
-	return $value;
-    }
+		return $value;
+	}
+
 }
 
 $database = new MySQLDatabase();
